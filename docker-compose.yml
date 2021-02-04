@@ -2,7 +2,7 @@ version: "3"
 
 services:
   prometheus:
-    image: prom/prometheus:latest
+    image: 244779895625.dkr.ecr.us-east-2.amazonaws.com/prometheus:latest
     container_name: prometheus
     ports:
     - 9090:9090
@@ -14,7 +14,7 @@ services:
     - cadvisor
     
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
+    image: 244779895625.dkr.ecr.us-east-2.amazonaws.com/cadvisor:latest
     container_name: cadvisor
     ports:
     - 8080:8080
@@ -31,7 +31,7 @@ services:
     - db
 
   vote:
-    build: ./vote
+    image: 244779895625.dkr.ecr.us-east-2.amazonaws.com/vote:latest
     command: python app.py
     volumes:
      - ./vote:/app
@@ -42,7 +42,7 @@ services:
       - back-tier
 
   result:
-    build: ./result
+    image: 244779895625.dkr.ecr.us-east-2.amazonaws.com/result:latest
     command: nodemon server.js
     volumes:
       - ./result:/app
@@ -54,8 +54,7 @@ services:
       - back-tier
 
   worker:
-    build:
-      context: ./worker
+    image: 244779895625.dkr.ecr.us-east-2.amazonaws.com/worker:latest
     depends_on:
       - "redis"
       - "db"
@@ -63,14 +62,14 @@ services:
       - back-tier
 
   redis:
-    image: redis:5.0-alpine3.10
+    image: 244779895625.dkr.ecr.us-east-2.amazonaws.com/redis:latest
     container_name: redis
     ports: ["6379"]
     networks:
       - back-tier
 
   db:
-    image: postgres:9.4
+    image: 244779895625.dkr.ecr.us-east-2.amazonaws.com/postgres:latest
     container_name: db
     environment:
       POSTGRES_USER: "postgres"
@@ -86,3 +85,4 @@ volumes:
 networks:
   front-tier:
   back-tier:
+
